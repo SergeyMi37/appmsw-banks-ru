@@ -4,9 +4,8 @@
  
 [![Docker-ports](https://img.shields.io/badge/dynamic/yaml?color=blue&label=docker-compose&prefix=ports%20-%20&query=%24.services.iris.ports&url=https%3A%2F%2Fraw.githubusercontent.com%2Fsergeymi37%2Fexchange-rate-cbrf-ui%2Fmaster%2Fdocker-compose.yml)](https://raw.githubusercontent.com/sergeymi37/exchange-rate-cbrf-ui/master/docker-compose.yml)
  
-## exchange-rate-cbrf-ui
- [![OEX](https://img.shields.io/badge/Available%20on-Intersystems%20Open%20Exchange-00b2a9.svg)](https://openexchange.intersystems.com/package/exchange-rate-cbrf-ui)
- <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/SergeyMi37/exchange-rate-cbrf-ui">
+## appmsw-banks
+[![Quality Gate Status](https://community.objectscriptquality.com/api/project_badges/measure?project=intersystems_iris_community%2Fappmsw-banks-ru&metric=alert_status)](https://community.objectscriptquality.com/dashboard?id=intersystems_iris_community%2Fappmsw-banks-ru)
 
 ## What's new
 Added example [LOAD DATA](https://github.com/SergeyMi37/exchange-rate-cbrf-ui/blob/48acfe364a446f3c112d897ee49760607ea45cff/src/cls/appmsw/cbrf/rateinfo.cls#L268)
