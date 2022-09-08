@@ -5,8 +5,8 @@
 [![Docker-ports](https://img.shields.io/badge/dynamic/yaml?color=blue&label=docker-compose&prefix=ports%20-%20&query=%24.services.iris.ports&url=https%3A%2F%2Fraw.githubusercontent.com%2Fsergeymi37%2Fappmsw-banks-ru%2Fmaster%2Fdocker-compose.yml)](https://raw.githubusercontent.com/sergeymi37/appmsw-banks-ru/master/docker-compose.yml)
  
 ## appmsw-banks-ru
-[![Quality Gate Status](https://community.objectscriptquality.com/api/project_badges/measure?project=intersystems_iris_community%2Fappmsw-banks-ru&metric=alert_status)](https://community.objectscriptquality.com/dashboard?id=intersystems_iris_community%2Fappmsw-banks-ru)
- [![Demo](https://img.shields.io/badge/Demo%20on-GCR-black)](https://banks.demo.community.intersystems.com/apptoolsrest/a/info&class=appmsw.banks.info&namespace=user
+![Quality Gate Status](https://community.objectscriptquality.com/api/project_badges/measure?project=intersystems_iris_community%2Fappmsw-banks-ru&metric=alert_status)](https://community.objectscriptquality.com/dashboard?id=intersystems_iris_community%2Fappmsw-banks-ru)
+![Demo](https://img.shields.io/badge/Demo%20on-GCR-black)](https://banks.demo.community.intersystems.com/apptoolsrest/a/info&class=appmsw.banks.info&namespace=user)
 
 ## What's new
 
