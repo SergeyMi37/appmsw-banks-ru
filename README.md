@@ -5,17 +5,21 @@
 [![Docker-ports](https://img.shields.io/badge/dynamic/yaml?color=blue&label=docker-compose&prefix=ports%20-%20&query=%24.services.iris.ports&url=https%3A%2F%2Fraw.githubusercontent.com%2Fsergeymi37%2Fappmsw-banks-ru%2Fmaster%2Fdocker-compose.yml)](https://raw.githubusercontent.com/sergeymi37/appmsw-banks-ru/master/docker-compose.yml)
  
 ## appmsw-banks-ru
+
+An example of working with the service for updating the list of Russian banks
+
 [![Quality Gate Status](https://community.objectscriptquality.com/api/project_badges/measure?project=intersystems_iris_community%2Fappmsw-banks-ru&metric=alert_status)](https://community.objectscriptquality.com/dashboard?id=intersystems_iris_community%2Fappmsw-banks-ru)
- [![Demo](https://img.shields.io/badge/Demo%20on-GCR-black)](https://banks.demo.community.intersystems.com/apptoolsrest/a/info&class=appmsw.banks.info&namespace=user)
+ [![Demo](https://img.shields.io/badge/Demo%20on-GCR-black)](https://banks.demo.community.intersystems.com/apptoolsrest/a/info&class=appmsw.banks.info)
 
 ## What's new
 
+Added fileserver for downloading generated xlsx files
 
 ## Installation with ZPM
 
 If ZPM the current instance is not installed, then in one line you can install the latest version of ZPM.
 ```
-set $namespace="%SYS", name="DefaultSSL" do:'##class(Security.SSLConfigs).Exists(name) ##class(Security.SSLConfigs).Create(name) set url="https://pm.community.intersystems.com/packages/zpm/latest/installer" Do ##class(%Net.URLParser).Parse(url,.comp) set ht = ##class(%Net.HttpRequest).%New(), ht.Server = comp("host"), ht.Port = 443, ht.Https=1, ht.SSLConfiguration=name, st=ht.Get(comp("path")) quit:'st $System.Status.GetErrorText(st) set xml=##class(%File).TempFilename("xml"), tFile = ##class(%Stream.FileBinary).%New(), tFile.Filename = xml do tFile.CopyFromAndSave(ht.HttpResponse.Data) do ht.%Close(), $system.OBJ.Load(xml,"ck") do ##class(%File).Delete(xml)
+s r=##class(%Net.HttpRequest).%New(),proxy=$System.Util.GetEnviron("https_proxy") Do ##class(%Net.URLParser).Parse(proxy,.pr) s:$G(pr("host"))'="" r.ProxyHTTPS=1,r.ProxyTunnel=1,r.ProxyPort=pr("port"),r.ProxyServer=pr("host") s:$G(pr("username"))'=""&&($G(pr("password"))'="") r.ProxyAuthorization="Basic "_$system.Encryption.Base64Encode(pr("username")_":"_pr("password")) set r.Server="pm.community.intersystems.com",r.SSLConfiguration="ISC.FeatureTracker.SSL.Config" d r.Get("/packages/zpm/latest/installer"),$system.OBJ.LoadStream(r.HttpResponse.Data,"c")
 ```
 If ZPM is installed, then `appmsw-banks-ru` can be set with the command
 ```
@@ -46,6 +50,6 @@ $ docker-compose up -d
 ```
 
 ## How to Test it
-Open link: http://localhost:52663/apptoolsrest/a/info&class=appmsw-banks-ru&namespace=USER
+Open link: http://localhost:52663/apptoolsrest/a/info&class=appmsw-banks-ru
 
 ![Link](https://raw.githubusercontent.com/sergeymi37/appmsw-banks-ru/master/doc/Screenshot_51.png)
