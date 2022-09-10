@@ -1,8 +1,8 @@
 ARG IMAGE=intersystemsdc/iris-community:2021.2.0.617.0-zpm
 FROM $IMAGE
 
-USER root   
-        
+USER root
+RUN apt-get update && apt-get install -y curl && apt-get install -y unzip
 WORKDIR /opt/irisapp
 RUN chown ${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP} /opt/irisapp
 USER ${ISC_PACKAGE_MGRUSER}
