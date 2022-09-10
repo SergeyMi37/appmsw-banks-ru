@@ -48,7 +48,7 @@ ClassMethod GetAllApps(opt) As %Status
 
 	set key="FilesServ"
 	set opt(key,"Namespace")=ns
-	set opt(key)="Files"
+	set opt(key)="FilesServ"
 	set opt(key,"id")="FS"
 	set opt(key,"TabName")=opt(key)
 	set opt(key,"ClassName")=..%ClassName(1)
@@ -160,13 +160,14 @@ ClassMethod ViewResult(Par = "") As %Status
 	set to=##class(apptools.core.Action).GetElemForm(%request,.Par,divId_"toDate")
 	write ..ButtonAgain(divId,key)
 	if mode=1 {
-		set sql="select CharCode, DateExchangeRates, DateReq, LastChanged, Nominal, NumCode, Value from appmsw_cbrf.tabex where DateExchangeRates >= '"_from_"' and DateExchangeRates <= '"_to_"'"
-		set sql="select * from appmsw_cbrf.tabex where DateExchangeRates >= '"_from_"' and DateExchangeRates <= '"_to_"'"
+		set sql="select NAMEP, 	ADR, 	NAMEP, 	NEWNUM, 	REGN, 	KSNP, 	DATEIN, importdate from appmsw_banks.model where importdate >= '"_from_"' and importdate <= '"_to_"'"
+		;set sql="select * from appmsw_cbrf.tabex where DateExchangeRates >= '"_from_"' and DateExchangeRates <= '"_to_"'"
 		set st=##class(apptools.core.LogInfoPane).DrawSQL(sql,100000,$zu(5),sql,$GET(exec),,1)
 		if 'st  write $$$appError($System.Status.GetErrorText(st))
 	}
 	elseif mode=2 {
-		do ##class(appmsw.cbrf.util).initDb(from,to)
+
+		q $$$OK
 	}
 	quit $$$OK
 }
