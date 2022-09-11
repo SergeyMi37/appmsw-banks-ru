@@ -77,7 +77,7 @@ ClassMethod CheckCRC(CRC, obj)
 	#dim sql As %ResultSet.SQL = ##class(%ResultSet.SQL).%Prepare(sql,,,CRC)
 	while sql.%Next() {
 		try {
-			i obj.NEWNUM=sql.NEWNUM,obj.NAMEP=sql.NAMEP s isDuble=1
+			i obj.NEWNUM=sql.NEWNUM,obj.NAMEP=sql.NAMEP set isDuble=1
 		} catch e {}
 	}
 	quit isDuble

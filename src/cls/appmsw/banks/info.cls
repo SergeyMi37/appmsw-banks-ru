@@ -123,7 +123,7 @@ ClassMethod ViewFirstHead(Par = "") As %Status
 	set key=Par("key")
 	set divId=Par("divId")
 	set %ui=1
-	set dataFrom=$zd($h-1,3)
+	set dataFrom=$zd($h-10,3)
 	set dataTo=$zd($h,3)
 	set onclick=$$$blockui("Load...")_
 		$$$onclick(divId_"MainForm",divId_"MainContent",$namespace,..%ClassName(1),divId_"Result","&key="_key_"&divId="_divId_"&mode=*")

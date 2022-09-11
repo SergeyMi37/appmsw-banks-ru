@@ -4,7 +4,7 @@ Class appmsw.banks.service Extends Ens.BusinessService
 {
 
 /// EnsLib.HTTP.OutboundAdapter
-Parameter ADAPTER = "Ens.InboundAdapter";
+Parameter ADAPTER = "appmsw.banks.adapter";
 
 /// temporary directory
 Property TempDir As %String(MAXLEN = 250) [ InitialExpression = "/tmp", Required ];
@@ -41,7 +41,7 @@ Method OnProcessInput(pInput As %RegisteredObject, Output pOutput As %Registered
 			$$$TRACE("Upload for date range completed")
 			q $$$OK
 		} else {
-		s sc=..LoadDay(..URL,$zd($h,3),..TempDir,..NoDeleteTemp)
+			s sc=..LoadDay(..URL,$zd($h,3),..TempDir,..NoDeleteTemp)
 		}
 	}
 	q sc
@@ -53,11 +53,11 @@ ClassMethod LoadDay(url = "http://www.cbr.ru/VFS/mcirabis/BIKNew/", Day, TempDir
 	set file=$tr(Day,"-")_"_ED807_full.xml"
 	set filezip=$tr(Day,"-")_"ED01OSBR.zip"
 	set url=url_filezip
-	$$$TRACE("Get from "_url)
+	$$$TRACE("Get from "_url_", Date "_Day)
 	write !,url
 	set sc=##class(apptools.core.net).GetHttp(url,.Data,TempDir)
 	if 'sc write !,$System.Status.GetErrorText(sc) quit sc
-	quit:'$isobject(Data("content")) $$$ERROR($$$GeneralError,"Нет потока")
+	quit:'$isobject(Data("content")) $$$ERROR($$$GeneralError,"Not content")
 	s stream=Data("content")
 	$$$TRACE("Download from archive "_Data("pathfileName"))
 
@@ -79,7 +79,7 @@ ClassMethod LoadDay(url = "http://www.cbr.ru/VFS/mcirabis/BIKNew/", Day, TempDir
 			f i=1:1:bics {
 				s xml=Object.any.GetAt(i)
 				s sс=..AddBIC(xml,.out,BusinessDay,file,.count)
-				If $$$ISERR(sc) q
+				If $$$ISERR(sc) quit
 			}
 	    }
 	}
@@ -93,7 +93,7 @@ ClassMethod LoadDay(url = "http://www.cbr.ru/VFS/mcirabis/BIKNew/", Day, TempDir
 }
 
 /// w ##class(appmsw.banks.service).AddBIC(a)
-ClassMethod AddBIC(xml, bnkseek, date, file, count)
+ClassMethod AddBIC(xml, bnkseek, date, file, ByRef count)
 {
 
 	Set tReader = ##class(%XML.Reader).%New()
