@@ -124,7 +124,7 @@ ClassMethod ViewFirstHead(Par = "") As %Status
 	set divId=Par("divId")
 	set %ui=1
 	set dataFrom=$zd($h-10,3)
-	set dataTo=$zd($h,3)
+	set dataTo=$zd($h+1,3)
 	set onclick=$$$blockui("Load...")_
 		$$$onclick(divId_"MainForm",divId_"MainContent",$namespace,..%ClassName(1),divId_"Result","&key="_key_"&divId="_divId_"&mode=*")
 	&html<
@@ -138,7 +138,7 @@ ClassMethod ViewFirstHead(Par = "") As %Status
 			</td>
 			<td>
 			#($$$appButton(divId_"appButtonResult1","onclick="""_$replace(onclick,"*",1)_"""","Search"))#
-			#($$$appButton(divId_"appButtonResult2","onclick="""_$replace(onclick,"*",2)_"""","Load from service"))#
+			#($$$appButton(divId_"appButtonResult2","onclick="""_$replace(onclick,"*",2)_"""","Export to XLSX"))#
 			</td>
 		</tr>
 		</table>
@@ -159,14 +159,23 @@ ClassMethod ViewResult(Par = "") As %Status
 	set from=##class(apptools.core.Action).GetElemForm(%request,.Par,divId_"fromDate")	
 	set to=##class(apptools.core.Action).GetElemForm(%request,.Par,divId_"toDate")
 	write ..ButtonAgain(divId,key)
+	
+	set gn=##class(appmsw.banks.util).#GN
+	set tempdir=$G(@gn@("tempdir"))
+	if tempdir="" write "Tempory Directory is not defined" quit $$$OK
+	set sql="select NAMEP,ADR,NEWNUM,REGN,KSNP,DATEIN,importdate from appmsw_banks.model where importdate >= '"_from_"' and importdate <= '"_to_"'"
 	if mode=1 {
-		set sql="select NAMEP, 	ADR, 	NAMEP, 	NEWNUM, 	REGN, 	KSNP, 	DATEIN, importdate from appmsw_banks.model where importdate >= '"_from_"' and importdate <= '"_to_"'"
-		;set sql="select * from appmsw_cbrf.tabex where DateExchangeRates >= '"_from_"' and DateExchangeRates <= '"_to_"'"
 		set st=##class(apptools.core.LogInfoPane).DrawSQL(sql,100000,$zu(5),sql,$GET(exec),,1)
 		if 'st  write $$$appError($System.Status.GetErrorText(st))
 	}
-	elseif mode=2 {
-
+	elseif mode=2 { ;"Export to XLSX"
+		set gn="^||tmpQuery"
+		set st=##class(apptools.core.sys).SaveSQL(sql,gn)
+		if 'st  write $$$appError($System.Status.GetErrorText(st)) quit st
+		set newfile=tempdir_"Query-BIC-"_$tr(##class(apptools.core.type).GetDateTime($h),"T:","_")_".xlsx"
+		set format("freeze")="B3"
+		do ##class(apptools.python.xlsx).gn2xlsx(gn,.format,newfile,"Query Banks")
+		do ##class(apptools.lte.fileserver).AddRecord($namespace, $username, "Query-BIC", newfile)
 		q $$$OK
 	}
 	quit $$$OK

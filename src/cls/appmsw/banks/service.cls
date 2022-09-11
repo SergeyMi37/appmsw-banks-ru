@@ -7,7 +7,7 @@ Class appmsw.banks.service Extends Ens.BusinessService
 Parameter ADAPTER = "appmsw.banks.adapter";
 
 /// temporary directory
-Property TempDir As %String(MAXLEN = 250) [ InitialExpression = "/tmp", Required ];
+Property TempDir As %String(MAXLEN = 250) [ InitialExpression = "/tmp/", Required ];
 
 /// Link to the Central Bank service
 Property URL As %String(MAXLEN = 350) [ InitialExpression = "http://www.cbr.ru/VFS/mcirabis/BIKNew/", Required ];
