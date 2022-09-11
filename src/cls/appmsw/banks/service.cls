@@ -88,7 +88,7 @@ ClassMethod LoadDay(url = "http://www.cbr.ru/VFS/mcirabis/BIKNew/", Day, TempDir
 	
 	$$$TRACE($g(msg))
 	
-	if 'NoDeleteTemp d ##class(App.files).RemoveFiles(infile) d ##class(App.files).RemoveFiles(filezip)
+	if 'NoDeleteTemp d ##class(apptools.core.files).RemoveFiles(infile) d ##class(apptools.core.files).RemoveFiles(filezip)
 	quit sc
 }
 

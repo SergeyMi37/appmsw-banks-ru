@@ -137,6 +137,7 @@ ClassMethod ViewFirstHead(Par = "") As %Status
 			to #($$$appDate(divId_"toDate","",dataTo))#
 			</td>
 			<td>
+			#($$$appText(divId_"context","title='context search name'",""))#
 			#($$$appButton(divId_"appButtonResult1","onclick="""_$replace(onclick,"*",1)_"""","Search"))#
 			#($$$appButton(divId_"appButtonResult2","onclick="""_$replace(onclick,"*",2)_"""","Export to XLSX"))#
 			</td>
@@ -158,12 +159,14 @@ ClassMethod ViewResult(Par = "") As %Status
 	;Geting elements from form and prepare array Par
 	set from=##class(apptools.core.Action).GetElemForm(%request,.Par,divId_"fromDate")	
 	set to=##class(apptools.core.Action).GetElemForm(%request,.Par,divId_"toDate")
+	s context=##class(apptools.core.Action).GetElemForm(%request,.Par,divId_"context")
 	write ..ButtonAgain(divId,key)
 	
 	set gn=##class(appmsw.banks.util).#GN
 	set tempdir=$G(@gn@("tempdir"))
 	if tempdir="" write "Tempory Directory is not defined" quit $$$OK
-	set sql="select NAMEP,ADR,NEWNUM,REGN,KSNP,DATEIN,importdate from appmsw_banks.model where importdate >= '"_from_"' and importdate <= '"_to_"'"
+	set sql="select NAMEP,ADR,NEWNUM,REGN,KSNP,DATEIN,importdate from appmsw_banks.model where importdate >= '"_from_"' and importdate <= '"_to_"' "
+	if context'="" set sql=sql_" and NAMEP['"_context_"'"
 	if mode=1 {
 		set st=##class(apptools.core.LogInfoPane).DrawSQL(sql,100000,$zu(5),sql,$GET(exec),,1)
 		if 'st  write $$$appError($System.Status.GetErrorText(st))
