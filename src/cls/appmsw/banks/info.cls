@@ -178,8 +178,9 @@ ClassMethod ViewResult(Par = "") As %Status
 		set newfile=tempdir_"Query-BIC-"_$tr(##class(apptools.core.type).GetDateTime($h),"T:","_")_".xlsx"
 		set format("freeze")="B3"
 		do ##class(apptools.python.xlsx).gn2xlsx(gn,.format,newfile,"Query Banks")
-		do ##class(apptools.lte.fileserver).AddRecord($namespace, $username, "Query-BIC", newfile)
-		q $$$OK
+		set st=##class(apptools.lte.fileserver).AddRecord($namespace, $username, "Query-BIC", newfile)
+		if 'st  write $$$appError($System.Status.GetErrorText(st)) quit st
+		write $$$appMsg("Completed "_newfile)
 	}
 	quit $$$OK
 }
