@@ -46,9 +46,9 @@ ClassMethod GetAllApps(opt) As %Status
 		set opt(key,"aw-icon")="fa-list-alt" ;fa-table"   https://fontawesome.com/icons?d=gallery&p=2&m=free
 		set opt(key,"Active")=1 ;active menu item
 
-	set key="FilesServ"
+	set key="FilesServer"
 	set opt(key,"Namespace")=ns
-	set opt(key)="FilesServ"
+	set opt(key)="FilesServer"
 	set opt(key,"id")="FS"
 	set opt(key,"TabName")=opt(key)
 	set opt(key,"ClassName")=..%ClassName(1)
@@ -103,18 +103,7 @@ ClassMethod GetAllApps(opt) As %Status
 ClassMethod FSFirstHead(Par = "") As %Status
 {
 	do ##class(apptools.lte.fileserver).FirstHead(.Par)
-}
-
-ClassMethod ThreeСurrFirstHead(Par = "") As %Status
-{
-	do ##class(apptools.core.Form).BlockUI(0)
-	set key=Par("key")
-	set divId=Par("divId")
-	set cgi="&panel=class(appmsw.cbrf.ChartRate).AllCurrencies&days=2265(EUR,USD,GBP)"
-	kill %request
-	do ##class(apptools.Chart.ChartPanel).Drawcanvas(cgi)
-	;$$$SetHeightContent(divId,250)
-	q $$$OK
+	quit $$$OK
 }
 
 ClassMethod ViewFirstHead(Par = "") As %Status
@@ -177,9 +166,9 @@ ClassMethod ViewResult(Par = "") As %Status
 		if 'st  write $$$appError($System.Status.GetErrorText(st)) quit st
 		set newfile=tempdir_"Query-BIC-"_$tr(##class(apptools.core.type).GetDateTime($h),"T:","_")_".xlsx"
 		set format("freeze")="B3"
-		do ##class(apptools.python.xlsx).gn2xlsx(gn,.format,newfile,"Query Banks")
+		set res=##class(apptools.python.xlsx).gn2xlsx(gn,.format,newfile,"Query Banks")
 		set st=##class(apptools.lte.fileserver).AddRecord($namespace, $username, "Query-BIC", newfile)
-		if 'st  write $$$appError($System.Status.GetErrorText(st)) quit st
+		if 'st write $$$appError("Error "_newfile_" "_$System.Status.GetErrorText(st)) quit st
 		write $$$appMsg("Completed "_newfile)
 	}
 	quit $$$OK
