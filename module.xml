@@ -4,9 +4,9 @@
     <Module>
     <Name>appmsw-banks-ru</Name>
     <Version>1.0.0</Version>
-	<Description>.</Description>
+	<Description>An example of working with the service for updating the list of Russian banks.</Description>
     <Packaging>module</Packaging>
-	<Keywords>Database exchange rates</Keywords>
+	<Keywords>example service</Keywords>
 	<Author>
 	<Person>Mikhaylenko Sergey</Person>
 	<CopyrightDate>2022</CopyrightDate>
