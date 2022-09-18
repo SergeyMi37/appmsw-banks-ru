@@ -50,6 +50,6 @@ $ docker-compose up -d
 ```
 
 ## How to Test it
-Open link: http://localhost:52663/apptoolsrest/a/info&class=appmsw-banks-ru
+Open link: http://localhost:52663/apptoolsrest/a/info&class=appmsw-banks-ru&namespace=user
 
 ![Link](https://raw.githubusercontent.com/sergeymi37/appmsw-banks-ru/master/doc/Screenshot_1.png)
